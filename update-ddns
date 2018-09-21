@@ -1,0 +1,15 @@
+#!/usr/bin/env ash
+
+if [ "${DDNS_UPDATE_ADDRESS+set}" != 'set' ]; then
+  echo 'You must set the DDNS update address with $DDNS_UPDATE_ADDRESS!' >&2
+  exit 1
+fi
+
+DDNS_UPDATE_FREQUENCY="${DDNS_UPDATE_FREQUENCY:-1h}"
+
+echo "DDNS client starting, updating every $DDNS_UPDATE_FREQUENCY"
+
+while :; do
+  wget -qO - "$DDNS_UPDATE_ADDRESS"
+  sleep "$DDNS_UPDATE_FREQUENCY"
+done
